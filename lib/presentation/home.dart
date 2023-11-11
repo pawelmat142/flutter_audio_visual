@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_visual/model/signal_state.dart';
+import 'package:flutter_audio_visual/presentation/time_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,27 +13,37 @@ class HomeScreen extends StatelessWidget {
 
     final cubit = BlocProvider.of<SignalCubit>(context);
 
-    return Scaffold(
+    return BlocBuilder<SignalCubit, SignalState>(
+      builder: (cts, state) {
+        return Scaffold(
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-
-          ElevatedButton(child: const Text('start'),
+        appBar: AppBar(actions: [
+          IconButton(
+            icon: const Icon(Icons.clear),
             onPressed: () {
-              cubit.start();
+              cubit.resetStream();
             },
           ),
-
-          ElevatedButton(child: const Text('stop'),
+          IconButton(
+            icon:  Icon(state.running ? Icons.stop_circle : Icons.play_circle,
+              color: state.running ? Colors.redAccent : Colors.blueAccent,
+            ),
             onPressed: () {
-              cubit.stop();
+              state.running ? cubit.stop() : cubit.start();
             },
-          )
-        ],
-      ),
+          ),
+        ],),
 
+        body: ListView(
+          padding: const EdgeInsets.all(15),
+          children: [
+
+            TimeChart(state),
+          ],
+        ),
+      );
+      },
     );
+
   }
 }
