@@ -1,11 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_visual/model/signal_state.dart';
+import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/chart.dart';
 
 class TimeChart extends StatelessWidget {
 
-  final SignalState state;
+  final ChartsState state;
 
   const TimeChart(this.state, {
     Key? key}) : super(key: key);

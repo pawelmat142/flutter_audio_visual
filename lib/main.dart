@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_visual/services/extension.dart';
-import 'package:flutter_audio_visual/model/signal_state.dart';
+import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/home.dart';
 import 'package:flutter_audio_visual/services/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +13,7 @@ void main() {
   runApp(MultiBlocProvider(
 
     providers: [
-      BlocProvider<SignalCubit>(create: (_) => SignalCubit())
+      BlocProvider<ChartsCubit>(create: (_) => ChartsCubit()),
     ],
 
     child: const MyApp()));

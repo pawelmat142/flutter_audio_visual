@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_visual/model/signal_state.dart';
+import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/frequency_chart.dart';
 import 'package:flutter_audio_visual/presentation/time_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +12,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final cubit = BlocProvider.of<SignalCubit>(context);
+    final cubit = BlocProvider.of<ChartsCubit>(context);
 
-    return BlocBuilder<SignalCubit, SignalState>(
+    return BlocBuilder<ChartsCubit, ChartsState>(
       builder: (cts, state) {
         return Scaffold(
 
@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.clear),
             onPressed: () {
-              cubit.resetStream();
+              cubit.reset();
             },
           ),
           IconButton(

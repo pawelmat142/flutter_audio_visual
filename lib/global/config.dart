@@ -9,7 +9,7 @@ abstract class Config {
   static const int samplesToSmoothTimeChart = 1;
   static const int samplesToSmoothFreqChart = 1;
 
-  static const int chartsRefreshRate = 10;  //[Hz]
+  static const int chartsRefreshRate = 100;  //[Hz]
 
   static const int chartMaxFreq = 5000;
   static const int chartMinFreq = 1;
