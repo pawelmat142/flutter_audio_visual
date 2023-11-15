@@ -9,8 +9,6 @@ class FrequencyChart extends StatelessWidget {
   const FrequencyChart(this.state, {
     Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -42,10 +40,4 @@ class FrequencyChart extends StatelessWidget {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return AppChart(
-  //     state.frequencySpots,
-  //   );
-  // }
 }

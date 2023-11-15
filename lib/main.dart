@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_visual/global/extension.dart';
+import 'package:flutter_audio_visual/services/extension.dart';
 import 'package:flutter_audio_visual/model/signal_state.dart';
 import 'package:flutter_audio_visual/presentation/home.dart';
+import 'package:flutter_audio_visual/services/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
 
 void main() {
+
+  AppGetIt.init();
 
   runApp(MultiBlocProvider(
 

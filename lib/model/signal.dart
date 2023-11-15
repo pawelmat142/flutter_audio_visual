@@ -1,0 +1,1 @@
+typedef Signal = List<double>;

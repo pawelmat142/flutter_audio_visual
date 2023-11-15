@@ -1,11 +1,14 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_audio_visual/global/config.dart';
+import 'package:flutter_audio_visual/model/signal.dart';
+import 'package:flutter_audio_visual/services/fft_service.dart';
+import 'package:flutter_audio_visual/services/get_it.dart';
+import 'package:flutter_audio_visual/services/util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mic_stream/mic_stream.dart';
-import 'package:fft/fft.dart';
 
 class SignalState {
 
@@ -39,11 +42,14 @@ class SignalCubit extends Cubit<SignalState> {
     [],
     []
   ));
-  static const int sampleRate = 44000;
-  static const double deltaTime = 1/sampleRate;
 
   Stream<Uint8List>? _stream;
   StreamSubscription<Iterable<double>>? _subscription;
+
+  final _fftService = getIt.get<FftService>();
+
+  Signal micSignal = [];
+  Signal freqSignal = [];
 
   start() {
     print('START!');
@@ -51,7 +57,7 @@ class SignalCubit extends Cubit<SignalState> {
       _subscription?.resume();
     } else {
       _stream ??= MicStream.microphone(
-        sampleRate: sampleRate,
+        sampleRate: Config.sampleRate,
         audioSource: AudioSource.MIC,
         audioFormat: AudioFormat.ENCODING_PCM_8BIT,
         channelConfig: ChannelConfig.CHANNEL_IN_MONO
@@ -83,50 +89,33 @@ class SignalCubit extends Cubit<SignalState> {
   _micListener(List<double> samples) async {
     before = DateTime.now().microsecondsSinceEpoch;
 
-    final timeSpots = List<FlSpot>.generate(samples.length, (x) {
-      final y = samples[x];
-      return FlSpot(x * deltaTime.toDouble(), y.toDouble());
-    });
-
-    final fftSamples = _prepareFftSignal(samples);
-
-    final deltaFrequency = sampleRate / fftSamples.length;
-    // print(fftSamples);
-
-    const startOffset = 10;
-    const endOffset = 500;
-
-    final frequencySpots = List<FlSpot>.generate(fftSamples.length ~/2, (f) {
-      final double y = fftSamples[f]!.abs();
-      return FlSpot(f * deltaFrequency, y);
-    }).getRange(startOffset, endOffset).toList();
+    micSignal = Util.smoothSignal(samples, Config.samplesToSmoothMicSignal);
+    freqSignal = _fftService.transform(micSignal);
 
     emit(state.copyWith(
-      timeSpots: timeSpots,
-      frequencySpots: frequencySpots
+      timeSpots: timeChartSpots,
+      frequencySpots: freqChartSpots
     ));
   }
 
-  _prepareFftSignal(List<double> s) {
-    final samples = prepareSamplesLengthForFft(s);
-    var fft = FFT().Transform(samples).map((sample) => sample!.real).toList();
-    return _smoothSignal(fft);
+
+  List<FlSpot> get timeChartSpots {
+    final smoothedSignal = Util.smoothSignal(micSignal, Config.samplesToSmoothTimeChart);
+    return List<FlSpot>.generate(smoothedSignal.length, (x) {
+      final y = smoothedSignal[x];
+      return FlSpot(x * Config.deltaTime.toDouble(), y.toDouble());
+    });
   }
 
-  List<double> _smoothSignal(List<double> signal) {
-    const samplesToSmooth = 5;
-    List<double> result = [];
-    for (var i = samplesToSmooth-1; i < signal.length; i++) {
-      result.add(signal.getRange(i-samplesToSmooth+1, i-1).reduce((a, b) => a+b)/samplesToSmooth);
-    }
-    return result;
-  }
-
-  List<double> prepareSamplesLengthForFft(List<double> samples) {
-    int initialPowerOfTwo = (log(samples.length) * log2e).ceil();
-    int samplesFinalLength = pow(2, initialPowerOfTwo).toInt();
-    final padding = List<double>.filled(samplesFinalLength - samples.length, 0.toDouble());
-    return [...samples, ...padding];
+  List<FlSpot> get freqChartSpots {
+    final smoothedSignal = Util.smoothSignal(freqSignal, Config.samplesToSmoothFreqChart);
+    final deltaFrequency = Config.sampleRate / smoothedSignal.length;
+    const endOffset = 500;
+    const startOffset = 10;
+    return List<FlSpot>.generate(smoothedSignal.length ~/2, (f) {
+      final double y = smoothedSignal[f].abs();
+      return FlSpot(f * deltaFrequency, y);
+    }).getRange(startOffset, endOffset).toList();
   }
 
   _onMicError(error) {
