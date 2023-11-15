@@ -70,7 +70,6 @@ class AppChart extends StatelessWidget {
                 getTitlesWidget: getTitleWidgetFunction!,
                 showTitles: true,
               ),
-
             ),
           ),
           lineBarsData: [

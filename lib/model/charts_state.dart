@@ -99,14 +99,16 @@ class ChartsCubit extends Cubit<ChartsState> {
     final smoothedSignal = Util.smoothSignal(_signalService.freqSignal, Config.samplesToSmoothFreqChart);
     final deltaFrequency = Config.sampleRate / smoothedSignal.length;
     const endOffset = 500;
-    const startOffset = 10;
+    const startOffset = 3;
     if (smoothedSignal.length < endOffset) {
       return [];
     }
     return List<FlSpot>.generate(smoothedSignal.length ~/2, (f) {
       final double y = smoothedSignal[f].abs();
       return FlSpot(f * deltaFrequency, y);
-    }).getRange(startOffset, endOffset).toList();
+    })
+        .getRange(startOffset, endOffset).toList()
+    ;
   }
 
 }
