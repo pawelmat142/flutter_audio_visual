@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_visual/model/signal_state.dart';
+import 'package:flutter_audio_visual/presentation/frequency_chart.dart';
 import 'package:flutter_audio_visual/presentation/time_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,6 +40,8 @@ class HomeScreen extends StatelessWidget {
           children: [
 
             TimeChart(state),
+
+            FrequencyChart(state),
           ],
         ),
       );
