@@ -45,6 +45,7 @@ class SignalCubit extends Cubit<SignalState> {
 
   Stream<Uint8List>? _stream;
   StreamSubscription<Iterable<double>>? _subscription;
+  Timer? _chartsRefreshTimer;
 
   final _fftService = getIt.get<FftService>();
 
@@ -70,14 +71,19 @@ class SignalCubit extends Cubit<SignalState> {
           .listen(_micListener, onError: _onMicError, onDone: _onDone);
           // ?.listen(_micListener, onError: _onMicError, onDone: _onDone);
     }
+
     emit(state.copyWith(
       running: true,
     ));
+    _startChartsRefresher();
   }
+
+
 
   stop() {
     print('STOP!');
     _subscription?.pause();
+    _stopChartsRefresher();
     emit(state.copyWith(
       running: false,
     ));
@@ -88,14 +94,8 @@ class SignalCubit extends Cubit<SignalState> {
 
   _micListener(List<double> samples) async {
     before = DateTime.now().microsecondsSinceEpoch;
-
     micSignal = Util.smoothSignal(samples, Config.samplesToSmoothMicSignal);
     freqSignal = _fftService.transform(micSignal);
-
-    emit(state.copyWith(
-      timeSpots: timeChartSpots,
-      frequencySpots: freqChartSpots
-    ));
   }
 
 
@@ -128,6 +128,7 @@ class SignalCubit extends Cubit<SignalState> {
   }
 
   resetStream() async {
+    _stopChartsRefresher();
     await _subscription?.cancel();
     _subscription = null;
     _stream = null;
@@ -136,6 +137,23 @@ class SignalCubit extends Cubit<SignalState> {
       frequencySpots: [],
       running: false,
     ));
+  }
+
+  _refreshCharts(Timer timer) {
+    emit(state.copyWith(
+        timeSpots: timeChartSpots,
+        frequencySpots: freqChartSpots
+    ));
+  }
+
+  _startChartsRefresher() {
+    const duration = Duration(milliseconds: 1000 ~/ Config.chartsRefreshRate);
+    _chartsRefreshTimer = Timer.periodic(duration, _refreshCharts);
+  }
+
+  _stopChartsRefresher() {
+    _chartsRefreshTimer?.cancel();
+    _chartsRefreshTimer = null;
   }
 
 }
