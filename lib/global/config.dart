@@ -19,7 +19,7 @@ abstract class Config {
   /// Those are used only for charts rendering
   ///
   static const int samplesToSmoothTimeChart = 1;
-  static const int samplesToSmoothFreqChart = 20;
+  static const int samplesToSmoothFreqChart = 5;
 
   ///
   /// this parameter destiny is to decrease charts rendering frequency
@@ -28,7 +28,7 @@ abstract class Config {
 
   ///
   /// frequency signal chart widget: X axis limits
-  static const double chartMaxFreq = 1500; // [Hz]
+  static const double chartMaxFreq = 2000; // [Hz]
   static const double chartMinFreq = 10;  // [Hz]
 
 }

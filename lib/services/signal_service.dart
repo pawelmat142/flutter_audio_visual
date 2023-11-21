@@ -8,7 +8,8 @@ import 'package:mic_stream/mic_stream.dart';
 
 class SignalService {
 
-  Stream<Signal> get micSignal$ => _micSignalController.stream;
+  Stream<Isignal> get micSignal$ => _micSignalController.stream
+      .map((samples) => samples.where((sample) => sample > 0));
   Stream<Signal> get freqSignal$ => _micSignalController.stream
       .map(_fftService.transform);
 

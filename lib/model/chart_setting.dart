@@ -57,7 +57,7 @@ class ChartSetting {
     type: ChartType.frequency,
     minX: Config.chartMinFreq,
     maxX: Config.chartMaxFreq,
-    interval: 500000,
+    interval: 200,
     minY: 0,
     maxY: 2000,
     baseY: 0,

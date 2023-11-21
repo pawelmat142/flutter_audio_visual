@@ -17,7 +17,7 @@ class ChartService {
       .map((signal) => signalToSpots(signal, setting));
 
 
-  Stream<Signal> _chartSignal$(ChartSetting setting) {
+  Stream<Isignal> _chartSignal$(ChartSetting setting) {
     if (setting.type == ChartType.time) {
       return signalService.micSignal$;
     }
