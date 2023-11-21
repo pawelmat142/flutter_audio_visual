@@ -20,7 +20,8 @@ class FrequencyChart extends StatelessWidget {
             maxX: 2000,
             lineBarsData: [
               LineChartBarData(
-                spots: state.frequencySpots,
+                // spots: state.frequencySpots,
+                spots: [],
                 dotData: const FlDotData(show: false),
               ),
             ],

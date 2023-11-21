@@ -4,8 +4,8 @@ abstract class Config {
   /// Signal sampling frequency
   ///
   static const int sampleRate = 44000;  //[Hz]
-  /// Sometimes its easier to use [ms] than [Hz]
-  static const double deltaTime = 1/sampleRate;
+  /// Sometimes its easier to use [μs] than [Hz]
+  static const double deltaTime = 1/sampleRate; //[μs]
 
   ///
   /// makes signal smoother but costs precision
@@ -19,7 +19,7 @@ abstract class Config {
   /// Those are used only for charts rendering
   ///
   static const int samplesToSmoothTimeChart = 1;
-  static const int samplesToSmoothFreqChart = 10;
+  static const int samplesToSmoothFreqChart = 20;
 
   ///
   /// this parameter destiny is to decrease charts rendering frequency
@@ -28,9 +28,7 @@ abstract class Config {
 
   ///
   /// frequency signal chart widget: X axis limits
-  static const int chartMaxFreq = 2000; // [Hz]
-  static const int chartMinFreq = 3;  // [Hz]
-
-
+  static const double chartMaxFreq = 1500; // [Hz]
+  static const double chartMinFreq = 10;  // [Hz]
 
 }

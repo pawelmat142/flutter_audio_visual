@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_visual/presentation/charts_screen.dart';
 import 'package:flutter_audio_visual/services/extension.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/home.dart';
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
 
       initialRoute: HomeScreen.id,
       routes: {
-        HomeScreen.id: (context) => const HomeScreen()
+        HomeScreen.id: (context) => const HomeScreen(),
+        ChartsScreen.id: (context) => const ChartsScreen()
       },
     );
   }

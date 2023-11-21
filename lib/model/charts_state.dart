@@ -1,33 +1,25 @@
-import 'dart:async';
-
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_audio_visual/global/config.dart';
+import 'package:flutter_audio_visual/model/chart_setting.dart';
 import 'package:flutter_audio_visual/services/get_it.dart';
 import 'package:flutter_audio_visual/services/signal_service.dart';
-import 'package:flutter_audio_visual/services/util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChartsState {
 
   final bool running;
-  final List<FlSpot> timeSpots;
-  final List<FlSpot> frequencySpots;
+  final List<ChartSetting> charts;
 
   ChartsState(
     this.running,
-    this.timeSpots,
-    this.frequencySpots,
+    this.charts,
   );
 
   ChartsState copyWith({
     bool? running,
-    List<FlSpot>? timeSpots,
-    List<FlSpot>? frequencySpots,
+    List<ChartSetting>? charts,
   }) {
     return ChartsState(
       running ?? this.running,
-      timeSpots ?? this.timeSpots,
-      frequencySpots ?? this.frequencySpots,
+      charts ?? this.charts,
     );
   }
 
@@ -36,79 +28,31 @@ class ChartsState {
 class ChartsCubit extends Cubit<ChartsState> {
   ChartsCubit() : super(ChartsState(
     false,
-    [],
-    []
+    [ChartSetting.defaultTime, ChartSetting.defaultFreq]
   ));
 
   final _signalService = getIt.get<SignalService>();
 
-  Timer? _chartsRefreshTimer;
-
   start() {
-    _signalService.startMicrophoneListener();
+    _signalService.startSignal();
     emit(state.copyWith(
       running: true,
     ));
-    _startChartsRefresher();
   }
 
   stop() {
-    _signalService.pauseMicrophoneListener();
-    _stopChartsRefresher();
+    _signalService.stopSignal();
     emit(state.copyWith(
       running: false,
     ));
   }
 
   reset() async {
-    _stopChartsRefresher();
-    _signalService.resetMicrophoneListener();
+    _signalService.resetSignal();
     emit(state.copyWith(
-      timeSpots: [],
-      frequencySpots: [],
       running: false,
     ));
   }
 
-  _startChartsRefresher() {
-    const duration = Duration(milliseconds: 1000 ~/ Config.chartsRefreshRate);
-    _chartsRefreshTimer = Timer.periodic(duration, _refreshCharts);
-  }
-
-  _stopChartsRefresher() {
-    _chartsRefreshTimer?.cancel();
-    _chartsRefreshTimer = null;
-  }
-
-  _refreshCharts(Timer _) {
-    emit(state.copyWith(
-        timeSpots: timeChartSpots,
-        frequencySpots: freqChartSpots
-    ));
-  }
-
-  List<FlSpot> get timeChartSpots {
-    final smoothedSignal = Util.smoothSignal(_signalService.micSignal, Config.samplesToSmoothTimeChart);
-    return List<FlSpot>.generate(smoothedSignal.length, (x) {
-      final y = smoothedSignal[x];
-      return FlSpot(x * Config.deltaTime.toDouble(), y.toDouble());
-    });
-  }
-
-  List<FlSpot> get freqChartSpots {
-    final smoothedSignal = Util.smoothSignal(_signalService.freqSignal, Config.samplesToSmoothFreqChart);
-    final deltaFrequency = Config.sampleRate / smoothedSignal.length;
-    const endOffset = 500;
-    const startOffset = 3;
-    if (smoothedSignal.length < endOffset) {
-      return [];
-    }
-    return List<FlSpot>.generate(smoothedSignal.length ~/2, (f) {
-      final double y = smoothedSignal[f].abs();
-      return FlSpot(f * deltaFrequency, y);
-    })
-        .getRange(startOffset, endOffset).toList()
-    ;
-  }
 
 }
