@@ -17,7 +17,6 @@ class AppModal extends StatelessWidget {
     bool lineOnTop = true,
   }) {
     return showModalBottomSheet<T>(context: context,
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
         builder: (ctx) => AppModal(
           onBack: onBack,
@@ -44,7 +43,6 @@ class AppModal extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(AppStyle.defaultPaddingVal, 0, AppStyle.defaultPaddingVal, AppStyle.defaultPaddingVal),
         decoration: const BoxDecoration(
-          color: AppColor.primaryDark,
           borderRadius: BorderRadius.vertical(top: AppStyle.defaultRadius),
         ),
         child: Column(

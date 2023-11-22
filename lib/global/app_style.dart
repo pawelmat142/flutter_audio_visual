@@ -31,10 +31,24 @@ abstract class AppStyle {
       letterSpacing: 1.2
   );
 
+  static const mediumDark = TextStyle(
+      fontSize: AppFontSize.medium,
+      fontWeight: FontWeight.w500,
+      color: AppColor.black70,
+      letterSpacing: 1
+  );
+
   static const labelMediumTextStyle = TextStyle(
       fontSize: AppFontSize.medium,
       fontWeight: FontWeight.w500,
       color: AppColor.white80,
+      letterSpacing: 1.1
+  );
+
+  static const primaryMedium = TextStyle(
+      fontSize: AppFontSize.medium,
+      fontWeight: FontWeight.w500,
+      color: AppColor.primary,
       letterSpacing: 1.1
   );
 
@@ -72,6 +86,13 @@ abstract class AppStyle {
       color: AppColor.white80,
       letterSpacing: 1
   );
+
+  static const smallPrimary = TextStyle(
+      fontSize: AppFontSize.small,
+      fontWeight: FontWeight.w300,
+      color: AppColor.primary,
+      letterSpacing: 1
+  );
 }
 
 
@@ -92,8 +113,6 @@ abstract class AppFontSize {
 
 
 
-
-
 abstract class AppColor {
 
   static const Color white = Color(0xFFFFFFFF);
@@ -102,9 +121,9 @@ abstract class AppColor {
 
   static const Color black70 = Color(0xB3000000);
 
-  static const Color primaryDark = Color(0xFF232F34);
-  static const Color primary = Color(0xFF344955);
-  static const Color primaryLight = Color(0xFF4A6572);
+  static const Color primaryDark = Colors.deepPurple;
+  static const Color primary = Colors.deepPurple;
+  static const Color primaryLight = Colors.deepPurple;
 
   static const Color secondary = Color(0xFFF9AA33);
   static const Color secondaryInactive = Color(0x57C58425);

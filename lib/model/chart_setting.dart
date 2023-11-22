@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_audio_visual/global/app_style.dart';
 import 'package:flutter_audio_visual/global/config.dart';
-import 'package:flutter_audio_visual/services/util.dart';
 
 enum ChartType {
   time,
@@ -15,13 +12,13 @@ class ChartSetting {
   final String unit;
   final ChartType type;
 
-  final double minX;
-  final double maxX;
-  final double interval;
+  double minX;
+  double maxX;
+  double interval;
 
-  final double minY;
-  final double maxY;
-  final double baseY;
+  double minY;
+  double maxY;
+  double baseY;
 
   final int samplesToSmooth;
 
@@ -63,38 +60,5 @@ class ChartSetting {
     baseY: 0,
     samplesToSmooth: Config.samplesToSmoothFreqChart,
   );
-
-  List<Widget> tilesList(BuildContext context) {
-    return [
-      ListTile(
-        title: const Text('minX', style: AppStyle.smallWhite80,),
-        trailing: Text(Util.valueDisplay(minX), style: AppStyle.secondaryMedium),
-      ),
-      ListTile(
-        title: const Text('maxX', style: AppStyle.smallWhite80),
-        trailing: Text(Util.valueDisplay(maxX), style: AppStyle.secondaryMedium),
-      ),
-      ListTile(
-        title: const Text('minY', style: AppStyle.smallWhite80),
-        trailing: Text(Util.valueDisplay(minY), style: AppStyle.secondaryMedium),
-      ),
-      ListTile(
-        title: const Text('maxY', style: AppStyle.smallWhite80),
-        trailing: Text(Util.valueDisplay(maxY), style: AppStyle.secondaryMedium),
-      ),
-      ListTile(
-        title: const Text('minX', style: AppStyle.smallWhite80),
-        trailing: Text(Util.valueDisplay(minX), style: AppStyle.secondaryMedium),
-      ),
-      ListTile(
-        title: const Text('baseY', style: AppStyle.smallWhite80),
-        trailing: Text(Util.valueDisplay(baseY), style: AppStyle.secondaryMedium),
-      ),
-      ListTile(
-        title: const Text('samplesToSmooth', style: AppStyle.smallWhite80),
-        trailing: Text(Util.valueDisplay(samplesToSmooth), style: AppStyle.secondaryMedium),
-      ),
-    ];
-  }
 
 }

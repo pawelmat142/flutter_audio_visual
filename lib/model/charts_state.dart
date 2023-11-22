@@ -55,4 +55,17 @@ class ChartsCubit extends Cubit<ChartsState> {
   }
 
 
+
+  setMinX(ChartSetting setting, num value) {
+    final index = state.charts.indexOf(setting);
+    if (index != -1) {
+      setting.minX = value.toDouble();
+      state.charts[index] = setting;
+      emit(state.copyWith(
+        charts: state.charts
+      ));
+    }
+  }
+
+
 }
