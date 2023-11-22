@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_visual/presentation/charts_screen.dart';
+import 'package:flutter_audio_visual/presentation/setups_screen.dart';
+import 'package:flutter_audio_visual/services/app_hive.dart';
 import 'package:flutter_audio_visual/services/extension.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/home.dart';
@@ -7,9 +9,11 @@ import 'package:flutter_audio_visual/services/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
 
-void main() {
+void main() async {
 
   AppGetIt.init();
+
+  await AppHive.initBoxes(); // local database initialization
 
   runApp(MultiBlocProvider(
 
@@ -20,9 +24,7 @@ void main() {
     child: const MyApp()));
 }
 
-//TODO dynamic add / remove chart from view
 //TODO X axis labels
-//TODO save setup
 //TODO buttons from appbar to bottom
 
 class MyApp extends StatelessWidget {
@@ -46,7 +48,8 @@ class MyApp extends StatelessWidget {
       initialRoute: HomeScreen.id,
       routes: {
         HomeScreen.id: (context) => const HomeScreen(),
-        ChartsScreen.id: (context) => const ChartsScreen()
+        ChartsScreen.id: (context) => const ChartsScreen(),
+        SetupsScreen.id: (context) => const SetupsScreen(),
       },
     );
   }

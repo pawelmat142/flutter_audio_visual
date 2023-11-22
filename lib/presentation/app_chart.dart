@@ -56,9 +56,6 @@ class AppChart extends StatelessWidget {
                   showDialog(context: context, builder: (ctx) {
                     return SettingPopup(setting);
                   });
-
-                  // AppModal.show(context, children: SettingsModal(setting).tilesList(context));
-                  print('event');
                 }
               ),
 

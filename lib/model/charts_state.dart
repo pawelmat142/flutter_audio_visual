@@ -1,4 +1,5 @@
 import 'package:flutter_audio_visual/model/chart_setting.dart';
+import 'package:flutter_audio_visual/model/charts_setup.dart';
 import 'package:flutter_audio_visual/services/get_it.dart';
 import 'package:flutter_audio_visual/services/signal_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -82,6 +83,12 @@ class ChartsCubit extends Cubit<ChartsState> {
     emit(state.copyWith(
       charts: state.charts
     ));
+  }
+
+  saveSetup() {
+    final charts = state.charts;
+    final setup = ChartsSetup.create(charts);
+    return setup.save();
   }
 
 }

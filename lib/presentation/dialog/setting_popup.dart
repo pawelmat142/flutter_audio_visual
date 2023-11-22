@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_audio_visual/global/app_style.dart';
 import 'package:flutter_audio_visual/model/chart_setting.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
+import 'package:flutter_audio_visual/presentation/dialog/sure_dialog.dart';
 import 'package:flutter_audio_visual/services/util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,18 +27,11 @@ class SettingPopup extends StatelessWidget {
         TextButton(onPressed: () {
           Navigator.pop(context);
           showDialog(context: context, builder: (ctx) {
-            return AlertDialog(
-              title: const Text('SURE?'),
-              actions: [
-                TextButton(onPressed: () {
-                  Navigator.pop(ctx);
-                }, child: const Text('Cancel')),
-                TextButton(onPressed: () {
-                  Navigator.pop(ctx);
-                  cubit.removeChart(setting);
-                }, child: const Text('OK'))
-              ],
-            );
+            return const SureAlert();
+          }).then((value) {
+            if (value == true) {
+              cubit.removeChart(setting);
+            }
           });
         }, child: const Text('REMOVE CHART')),
         TextButton(onPressed: () {

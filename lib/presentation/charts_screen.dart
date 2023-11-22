@@ -3,6 +3,9 @@ import 'package:flutter_audio_visual/global/app_style.dart';
 import 'package:flutter_audio_visual/model/chart_setting.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/app_chart.dart';
+import 'package:flutter_audio_visual/presentation/home.dart';
+import 'package:flutter_audio_visual/presentation/setups_screen.dart';
+import 'package:flutter_audio_visual/services/extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChartsScreen extends StatelessWidget {
@@ -46,6 +49,20 @@ class ChartsScreen extends StatelessWidget {
             ),
             onPressed: () => selectTypeDialog(context, cubit)
           ),
+          IconButton(
+              icon:  const Icon(Icons.save,
+                color: AppColor.secondary,
+              ),
+              onPressed: () {
+                cubit.saveSetup().then((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('saved!'), duration: Duration(milliseconds: 1000)),
+                  );
+                  Navi.popUntilNamed(context, HomeScreen.id);
+                  Navigator.pushNamed(context, SetupsScreen.id);
+                });
+              },
+          ),
         ]),
 
         body: LayoutBuilder(
@@ -71,6 +88,7 @@ class ChartsScreen extends StatelessWidget {
   selectTypeDialog(BuildContext context, ChartsCubit cubit) {
     showDialog(context: context, builder: (ctx) {
       return AlertDialog(
+        actionsAlignment: MainAxisAlignment.spaceBetween,
         title: const Text('select type'),
         actions: [
           TextButton(onPressed: () {

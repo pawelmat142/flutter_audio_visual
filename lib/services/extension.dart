@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
 
 extension Navi on Navigator {
@@ -18,4 +19,11 @@ extension Navi on Navigator {
     Navigator.popUntil(context, (Route route) => route.settings.name == screenId);
   }
 
+}
+
+extension DateTimeExtension on DateTime {
+
+  static final formatter = DateFormat('kk:mm dd-MM-yyyy');
+
+  String get format => formatter.format(this);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_visual/presentation/charts_screen.dart';
+import 'package:flutter_audio_visual/presentation/setups_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'home_screen';
@@ -19,8 +20,9 @@ class HomeScreen extends StatelessWidget {
             }, child: const Text('charts')),
 
             ElevatedButton(onPressed: () {
+              Navigator.pushNamed(context, SetupsScreen.id);
+            }, child: const Text('setups')),
 
-            }, child: const Text('test')),
           ],
         ),
       )
