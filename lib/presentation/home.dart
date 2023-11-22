@@ -11,9 +11,18 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: ElevatedButton(onPressed: () {
-          Navigator.pushNamed(context, ChartsScreen.id);
-        }, child: const Text('charts')),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: () {
+              Navigator.pushNamed(context, ChartsScreen.id);
+            }, child: const Text('charts')),
+
+            ElevatedButton(onPressed: () {
+
+            }, child: const Text('test')),
+          ],
+        ),
       )
     );
   }

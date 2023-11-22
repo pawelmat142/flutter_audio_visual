@@ -1,11 +1,16 @@
 import 'package:flutter_audio_visual/global/config.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'chart_setting.g.dart';
 
 enum ChartType {
   time,
   frequency
 }
+// flutter packages pub run build_runner build --delete-conflicting-outputs
 
 
+@JsonSerializable()
 class ChartSetting {
 
   final String name;
@@ -60,5 +65,29 @@ class ChartSetting {
     baseY: 0,
     samplesToSmooth: Config.samplesToSmoothFreqChart,
   );
+
+  static ChartSetting fromJson(Map<String, dynamic> json) {
+    return _$ChartSettingFromJson(json);
+  }
+
+  Map<String, dynamic> get toJson => _$ChartSettingToJson(this);
+
+  ChartSetting set({required String field, required dynamic value}) {
+    final json = toJson;
+    final currentValue = json[field];
+    if (currentValue.runtimeType != value.runtimeType) {
+      if (currentValue is double && value is int) {
+        value = value.toDouble();
+      } else {
+        throw 'input type: ${value.runtimeType}, current type: ${currentValue.runtimeType}, name: $field';
+      }
+    }
+    json[field] = value;
+    return fromJson(json);
+  }
+
+  dynamic get({required String field}) {
+    return toJson[field];
+  }
 
 }

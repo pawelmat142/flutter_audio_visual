@@ -17,6 +17,7 @@ class SettingPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<ChartsCubit>(context);
 
+    final settingJson = setting.toJson;
 
     return AlertDialog(
 
@@ -29,16 +30,20 @@ class SettingPopup extends StatelessWidget {
 
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-
-        SettingsTile(
-            title: 'minX',
-            currentValue: setting.minX,
+        children: settingJson.keys
+          .where((field) => settingJson[field] is num)
+          .map((field) => SettingsTile(
+            title: field,
+            currentValue: settingJson[field],
             valueSetter: (num value) {
-              cubit.setMinX(setting, value);
-            }
-        ),
-      ],),
+              cubit.emitSetting(
+                  setting: setting,
+                  value: value,
+                  field: field
+              );
+            })
+        ).toList(),
+      ),
     );
   }
 }

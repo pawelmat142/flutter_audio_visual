@@ -16,6 +16,7 @@ class ChartsState {
   ChartsState copyWith({
     bool? running,
     List<ChartSetting>? charts,
+    List<Map<String, num>>? chartsSettings,
   }) {
     return ChartsState(
       running ?? this.running,
@@ -28,7 +29,7 @@ class ChartsState {
 class ChartsCubit extends Cubit<ChartsState> {
   ChartsCubit() : super(ChartsState(
     false,
-    [ChartSetting.defaultTime, ChartSetting.defaultFreq]
+    [ChartSetting.defaultTime, ChartSetting.defaultFreq],
   ));
 
   final _signalService = getIt.get<SignalService>();
@@ -54,18 +55,28 @@ class ChartsCubit extends Cubit<ChartsState> {
     ));
   }
 
-
+  emitSetting({ required ChartSetting setting, required num value, required String field }) {
+    final index = state.charts.indexOf(setting);
+    if (index != -1) {
+      final chart = state.charts[index];
+      final newChart = chart.set(field: field, value: value);
+      state.charts[index] = newChart;
+      emit(state.copyWith(
+          charts: state.charts
+      ));
+    }
+  }
 
   setMinX(ChartSetting setting, num value) {
     final index = state.charts.indexOf(setting);
     if (index != -1) {
-      setting.minX = value.toDouble();
-      state.charts[index] = setting;
+      final chart = state.charts[index];
+      final newChart = chart.set(field: 'minX', value: value);
+      state.charts[index] = newChart;
       emit(state.copyWith(
         charts: state.charts
       ));
     }
   }
-
 
 }
