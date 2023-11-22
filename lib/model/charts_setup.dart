@@ -19,7 +19,7 @@ class ChartsSetup extends HiveObject {
   final DateTime modified;
 
   @HiveField(3)
-  final String? name;
+  String? name;
 
   ChartsSetup(
       this.id,

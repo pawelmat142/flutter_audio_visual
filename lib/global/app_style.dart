@@ -89,7 +89,7 @@ abstract class AppStyle {
 
   static const smallPrimary = TextStyle(
       fontSize: AppFontSize.small,
-      fontWeight: FontWeight.w300,
+      fontWeight: FontWeight.w400,
       color: AppColor.primary,
       letterSpacing: 1
   );

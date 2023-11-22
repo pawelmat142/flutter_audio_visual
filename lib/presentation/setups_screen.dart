@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_visual/global/app_style.dart';
 import 'package:flutter_audio_visual/model/charts_setup.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/charts_screen.dart';
+import 'package:flutter_audio_visual/presentation/dialog/app_snackbar.dart';
 import 'package:flutter_audio_visual/presentation/dialog/sure_dialog.dart';
 import 'package:flutter_audio_visual/services/extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,12 +23,17 @@ class SetupsScreen extends StatelessWidget {
       body: ValueListenableBuilder(
         valueListenable: ChartsSetup.hiveBox.listenable(),
         builder: (context, box, widget) {
+
+          final setups = box.values.toList();
+          setups.sort((a, b) => b.modified.compareTo(a.modified));
+
           return ListView(
-            children: box.values.map((setup) => ListTile(
+            children: setups.map((setup) => ListTile(
               title: Text(setup.name!,),
-              subtitle: Text(setup.modified.format),
+              subtitle: Text(setup.modified.format, style: AppStyle.smallPrimary),
               trailing: DeleteSetupButton(setup),
               onTap: () => loadSetup(context, setup),
+              onLongPress: () => setName(context, setup),
             )).toList(),
           );
         },
@@ -42,6 +49,32 @@ class SetupsScreen extends StatelessWidget {
       Navigator.pushNamed(context, ChartsScreen.id);
     });
   }
+
+  setName(BuildContext context, ChartsSetup setup) {
+    showDialog(context: context, builder: (ctx) {
+      final controller = TextEditingController();
+      controller.text = setup.name ?? '';
+      return AlertDialog(
+        title: const Text('Enter name'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(ctx);
+          }, child: const Text('Cancel')),
+          TextButton(onPressed: () {
+            Navigator.pop(ctx);
+            setup.name = controller.text;
+            setup.save().then((value) {
+              AppSnackBar.show(context: context, text: 'saved!');
+            });
+          }, child: const Text('OK'))
+        ],
+      );
+    });
+  }
 }
 
 class DeleteSetupButton extends StatelessWidget {
@@ -54,6 +87,7 @@ class DeleteSetupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.delete),
+      color: AppColor.primary,
       onPressed: () {
         showDialog(context: context, builder: (ctx) {
           return const SureAlert();

@@ -3,6 +3,7 @@ import 'package:flutter_audio_visual/global/app_style.dart';
 import 'package:flutter_audio_visual/model/chart_setting.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/app_chart.dart';
+import 'package:flutter_audio_visual/presentation/dialog/app_snackbar.dart';
 import 'package:flutter_audio_visual/presentation/home.dart';
 import 'package:flutter_audio_visual/presentation/setups_screen.dart';
 import 'package:flutter_audio_visual/services/extension.dart';
@@ -60,9 +61,7 @@ class ChartsScreen extends StatelessWidget {
                 ),
                 onPressed: () {
                   cubit.saveSetup().then((_) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('saved!'), duration: Duration(milliseconds: 1000)),
-                    );
+                    AppSnackBar.show(context: context, text: 'saved!');
                     Navi.popUntilNamed(context, HomeScreen.id);
                     Navigator.pushNamed(context, SetupsScreen.id);
                   });
