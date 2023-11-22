@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_visual/model/charts_setup.dart';
+import 'package:flutter_audio_visual/model/charts_state.dart';
+import 'package:flutter_audio_visual/presentation/charts_screen.dart';
 import 'package:flutter_audio_visual/presentation/dialog/sure_dialog.dart';
 import 'package:flutter_audio_visual/services/extension.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SetupsScreen extends StatelessWidget {
@@ -23,11 +26,21 @@ class SetupsScreen extends StatelessWidget {
               title: Text(setup.name!,),
               subtitle: Text(setup.modified.format),
               trailing: DeleteSetupButton(setup),
+              onTap: () => loadSetup(context, setup),
             )).toList(),
           );
         },
       ),
     );
+  }
+
+  loadSetup(BuildContext context, ChartsSetup setup) {
+    final cubit = BlocProvider.of<ChartsCubit>(context);
+    cubit.loadSetup(setup);
+    Navi.popUntilNamed(context, SetupsScreen.id);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      Navigator.pushNamed(context, ChartsScreen.id);
+    });
   }
 }
 

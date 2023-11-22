@@ -18,68 +18,74 @@ class ChartsScreen extends StatelessWidget {
     final cubit = BlocProvider.of<ChartsCubit>(context);
 
     return BlocBuilder<ChartsCubit, ChartsState>(builder: (ctx, state) {
-      return Scaffold(
-        appBar: AppBar(actions: [
-          IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () {
-              cubit.reset();
-            },
-          ),
-          IconButton(
-            icon:  Icon(state.running ? Icons.stop_circle : Icons.play_circle,
-              color: state.running ? Colors.redAccent : Colors.blueAccent,
+      return WillPopScope(
+        onWillPop: () {
+          cubit.cleanSetupId();
+          return Future(() => true);
+        },
+        child: Scaffold(
+          appBar: AppBar(actions: [
+            IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () {
+                cubit.reset();
+              },
             ),
-            onPressed: () {
-              state.running ? cubit.stop() : cubit.start();
-            },
-          ),
-          IconButton(
-            icon:  const Icon(Icons.settings,
-              color: AppColor.secondary,
+            IconButton(
+              icon:  Icon(state.running ? Icons.stop_circle : Icons.play_circle,
+                color: state.running ? Colors.redAccent : Colors.blueAccent,
+              ),
+              onPressed: () {
+                state.running ? cubit.stop() : cubit.start();
+              },
             ),
-            onPressed: () {
-              // SettingsModal.show(context, chartName: 'Time');
-              // SettingsModal.show(context);
-            },
-          ),
-          IconButton(
-            icon:  const Icon(Icons.add,
-              color: AppColor.secondary,
-            ),
-            onPressed: () => selectTypeDialog(context, cubit)
-          ),
-          IconButton(
-              icon:  const Icon(Icons.save,
+            IconButton(
+              icon:  const Icon(Icons.settings,
                 color: AppColor.secondary,
               ),
               onPressed: () {
-                cubit.saveSetup().then((_) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('saved!'), duration: Duration(milliseconds: 1000)),
-                  );
-                  Navi.popUntilNamed(context, HomeScreen.id);
-                  Navigator.pushNamed(context, SetupsScreen.id);
-                });
+                // SettingsModal.show(context, chartName: 'Time');
+                // SettingsModal.show(context);
               },
+            ),
+            IconButton(
+              icon:  const Icon(Icons.add,
+                color: AppColor.secondary,
+              ),
+              onPressed: () => selectTypeDialog(context, cubit)
+            ),
+            IconButton(
+                icon:  const Icon(Icons.save,
+                  color: AppColor.secondary,
+                ),
+                onPressed: () {
+                  cubit.saveSetup().then((_) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('saved!'), duration: Duration(milliseconds: 1000)),
+                    );
+                    Navi.popUntilNamed(context, HomeScreen.id);
+                    Navigator.pushNamed(context, SetupsScreen.id);
+                  });
+                },
+            ),
+          ]),
+
+          body: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              final containerHeight = constraints.maxHeight;
+              final charts = state.charts.length;
+
+              final height = charts < 3 ? containerHeight / 2 : containerHeight / charts;
+              return ListView(
+                padding: AppStyle.defaultPadding,
+                children: state.charts.map((setting) => AppChart(
+                  height: height,
+                  setting: setting)).toList(),
+              );
+            }
           ),
-        ]),
 
-        body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            final containerHeight = constraints.maxHeight;
-            final charts = state.charts.length;
-
-            final height = charts < 3 ? containerHeight / 2 : containerHeight / charts;
-            return ListView(
-              padding: AppStyle.defaultPadding,
-              children: state.charts.map((setting) => AppChart(
-                height: height,
-                setting: setting)).toList(),
-            );
-          }
         ),
-
       );
     });
 

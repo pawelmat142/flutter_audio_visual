@@ -8,20 +8,23 @@ class ChartsState {
 
   final bool running;
   final List<ChartSetting> charts;
+  final String setupId;
 
   ChartsState(
     this.running,
     this.charts,
+    this.setupId,
   );
 
   ChartsState copyWith({
     bool? running,
     List<ChartSetting>? charts,
-    List<Map<String, num>>? chartsSettings,
+    String? setupId,
   }) {
     return ChartsState(
       running ?? this.running,
       charts ?? this.charts,
+      setupId ?? this.setupId,
     );
   }
 
@@ -31,6 +34,7 @@ class ChartsCubit extends Cubit<ChartsState> {
   ChartsCubit() : super(ChartsState(
     false,
     [ChartSetting.defaultTime, ChartSetting.defaultFreq],
+    '',
   ));
 
   final _signalService = getIt.get<SignalService>();
@@ -85,10 +89,29 @@ class ChartsCubit extends Cubit<ChartsState> {
     ));
   }
 
+  cleanSetupId() {
+    emit(state.copyWith(
+      setupId: '',
+    ));
+  }
+
   saveSetup() {
     final charts = state.charts;
-    final setup = ChartsSetup.create(charts);
+    final setup = state.setupId.isNotEmpty
+        ? ChartsSetup.override(charts, id: state.setupId)
+        : ChartsSetup.create(charts);
+
     return setup.save();
+  }
+
+  loadSetup(ChartsSetup setup) {
+    final charts = setup.chartSettings
+        .map((settingJson) => ChartSetting.fromJson(settingJson))
+        .toList();
+    emit(state.copyWith(
+      charts: charts,
+      setupId: setup.id,
+    ));
   }
 
 }

@@ -37,7 +37,17 @@ class ChartsSetup extends HiveObject {
     );
   }
 
-  static const String hiveKey = 'chart_setups';
+  static ChartsSetup override(List<ChartSetting> settings, { required String id }) {
+    final setup = getById(id)!;
+    return ChartsSetup(
+        setup.id,
+        settings.map((setting) => setting.toJson).toList(),
+        DateTime.now(),
+        setup.name,
+    );
+  }
+
+  static const String hiveKey = 'chart_setups_1';
   static Box<ChartsSetup> get hiveBox => Hive.box<ChartsSetup>(hiveKey);
 
   static openBox() {
@@ -50,11 +60,9 @@ class ChartsSetup extends HiveObject {
     return hiveBox.get(id);
   }
 
-  @override
-  save() {
+  Future<void> save() {
     final itemKey = id;
     return hiveBox.put(itemKey, this);
   }
-
 
 }
