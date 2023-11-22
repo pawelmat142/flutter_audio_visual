@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_visual/global/app_style.dart';
+import 'package:flutter_audio_visual/model/chart_setting.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/app_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,16 +40,55 @@ class ChartsScreen extends StatelessWidget {
               // SettingsModal.show(context);
             },
           ),
+          IconButton(
+            icon:  const Icon(Icons.add,
+              color: AppColor.secondary,
+            ),
+            onPressed: () => selectTypeDialog(context, cubit)
+          ),
         ]),
 
-        body: ListView(
-          padding: AppStyle.defaultPadding,
-          children: state.charts.map((setting) => AppChart(setting: setting)).toList(),
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final containerHeight = constraints.maxHeight;
+            final charts = state.charts.length;
+
+            final height = charts < 3 ? containerHeight / 2 : containerHeight / charts;
+            return ListView(
+              padding: AppStyle.defaultPadding,
+              children: state.charts.map((setting) => AppChart(
+                height: height,
+                setting: setting)).toList(),
+            );
+          }
         ),
 
       );
     });
 
+  }
+
+  selectTypeDialog(BuildContext context, ChartsCubit cubit) {
+    showDialog(context: context, builder: (ctx) {
+      return AlertDialog(
+        title: const Text('select type'),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(ctx);
+          }, child: const Text('Cancel')),
+          TextButton(onPressed: () {
+            Navigator.pop(ctx, ChartType.time);
+          }, child: const Text('TIME')),
+          TextButton(onPressed: () {
+            Navigator.pop(ctx, ChartType.frequency);
+          }, child: const Text('FREQ')),
+        ],
+      );
+    }).then((type) {
+      if (type is ChartType) {
+        cubit.addChart(type);
+      }
+    });
   }
 
 }

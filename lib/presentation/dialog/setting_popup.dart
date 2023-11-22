@@ -21,8 +21,25 @@ class SettingPopup extends StatelessWidget {
 
     return AlertDialog(
 
-      actionsAlignment: MainAxisAlignment.start,
+      actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
+        TextButton(onPressed: () {
+          Navigator.pop(context);
+          showDialog(context: context, builder: (ctx) {
+            return AlertDialog(
+              title: const Text('SURE?'),
+              actions: [
+                TextButton(onPressed: () {
+                  Navigator.pop(ctx);
+                }, child: const Text('Cancel')),
+                TextButton(onPressed: () {
+                  Navigator.pop(ctx);
+                  cubit.removeChart(setting);
+                }, child: const Text('OK'))
+              ],
+            );
+          });
+        }, child: const Text('REMOVE CHART')),
         TextButton(onPressed: () {
           Navigator.pop(context);
         }, child: const Text('OK'))

@@ -57,26 +57,31 @@ class ChartsCubit extends Cubit<ChartsState> {
 
   emitSetting({ required ChartSetting setting, required num value, required String field }) {
     final index = state.charts.indexOf(setting);
-    if (index != -1) {
-      final chart = state.charts[index];
-      final newChart = chart.set(field: field, value: value);
-      state.charts[index] = newChart;
-      emit(state.copyWith(
-          charts: state.charts
-      ));
-    }
+    if (index == -1) throw 'index == -1';
+    final chart = state.charts[index];
+    final newChart = chart.set(field: field, value: value);
+    state.charts[index] = newChart;
+    emit(state.copyWith(
+        charts: state.charts
+    ));
   }
 
-  setMinX(ChartSetting setting, num value) {
+  removeChart(ChartSetting setting) {
     final index = state.charts.indexOf(setting);
-    if (index != -1) {
-      final chart = state.charts[index];
-      final newChart = chart.set(field: 'minX', value: value);
-      state.charts[index] = newChart;
-      emit(state.copyWith(
+    if (index == -1) throw 'index == -1';
+    final chart = state.charts[index];
+    state.charts.remove(chart);
+    emit(state.copyWith(
         charts: state.charts
-      ));
-    }
+    ));
+  }
+
+  addChart(ChartType type) {
+    final chart = ChartSetting.getDefault(type);
+    state.charts.add(chart);
+    emit(state.copyWith(
+      charts: state.charts
+    ));
   }
 
 }

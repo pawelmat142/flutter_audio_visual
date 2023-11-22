@@ -20,6 +20,11 @@ void main() {
     child: const MyApp()));
 }
 
+//TODO dynamic add / remove chart from view
+//TODO X axis labels
+//TODO save setup
+//TODO buttons from appbar to bottom
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

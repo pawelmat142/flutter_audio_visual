@@ -66,6 +66,16 @@ class ChartSetting {
     samplesToSmooth: Config.samplesToSmoothFreqChart,
   );
 
+  static ChartSetting getDefault(ChartType type) {
+    if (type == ChartType.time) {
+      return defaultTime;
+    }
+    if (type == ChartType.frequency) {
+      return defaultFreq;
+    }
+    throw 'unknown ChartType';
+  }
+
   static ChartSetting fromJson(Map<String, dynamic> json) {
     return _$ChartSettingFromJson(json);
   }
