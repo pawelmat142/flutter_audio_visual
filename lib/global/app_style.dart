@@ -17,13 +17,6 @@ abstract class AppStyle {
   static const double wrapSpacing = 12;
 
 
-  static const titleLargeTextStyle = TextStyle(
-      fontSize: AppFontSize.big,
-      fontWeight: FontWeight.w500,
-      color: AppColor.secondary,
-      letterSpacing: 1.3
-  );
-
   static const midWhite30 = TextStyle(
       fontSize: AppFontSize.medium,
       fontWeight: FontWeight.w500,
@@ -52,25 +45,11 @@ abstract class AppStyle {
       letterSpacing: 1.1
   );
 
-  static const secondaryMedium = TextStyle(
-      fontSize: AppFontSize.medium,
-      fontWeight: FontWeight.w500,
-      color: AppColor.secondary,
-      letterSpacing: 1.1
-  );
-
   static const textInput = TextStyle(
       fontSize: AppFontSize.medium,
       fontWeight: FontWeight.w500,
       color: AppColor.white,
       letterSpacing: 1.1
-  );
-
-  static const listTileTitle = TextStyle(
-      fontSize: AppFontSize.medium,
-      fontWeight: FontWeight.w500,
-      color: AppColor.secondary,
-      letterSpacing: 1
   );
 
   static const listTileSubtitle = TextStyle(
@@ -123,31 +102,5 @@ abstract class AppColor {
 
   static const Color primaryDark = Colors.deepPurple;
   static const Color primary = Colors.deepPurple;
-  static const Color primaryLight = Colors.deepPurple;
-
-  static const Color secondary = Color(0xFFF9AA33);
-  static const Color secondaryInactive = Color(0x57C58425);
-  static const Color secondaryContrast = primaryDark;
-
-  static const Color blue = Color(0xFF3366FF);
-  static const Color blueInactive = Color(0x812749B4);
-  static const Color blueContrast = black70;
-
-  static const Color red = Color(0xFFFF5733);
-  static const Color redInactive = Color(0x74AD3922);
-  static const Color redContrast = primaryDark;
-
-  static List<Color> mapFlutterIconColors = [
-    const Color(0xFF4687C1),
-    const Color(0xFFC93D48),
-    const Color(0xFFA2A3A5),
-    const Color(0xFFC761AD),
-    const Color(0xFFF2A400),
-    const Color(0xFF4FA03B),
-    const Color(0xFF756CB7),
-    const Color(0xFF3B4043),
-  ];
-
-  static Color mapFlutterIconDefaultColor = mapFlutterIconColors.first;
 
 }

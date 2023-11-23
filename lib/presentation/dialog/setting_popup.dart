@@ -74,9 +74,9 @@ class SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title, style: AppStyle.primaryMedium,),
+      title: Text(title, style: AppStyle.mediumDark,),
       trailing: Text(Util.valueDisplay(currentValue),
-          style: AppStyle.mediumDark
+          style: AppStyle.primaryMedium
       ),
       onTap: () {
         Navigator.pop(context);

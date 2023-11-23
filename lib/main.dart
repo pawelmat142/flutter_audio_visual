@@ -25,7 +25,6 @@ void main() async {
 }
 
 //TODO X axis labels
-//TODO buttons from appbar to bottom
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
