@@ -19,6 +19,7 @@ class ChartSetting {
   final ChartType type;
 
   double strokeWidth;
+  int strokeColor;
 
   double minX;
   double maxX;
@@ -35,6 +36,7 @@ class ChartSetting {
     required this.unit,
     required this.type,
     required this.strokeWidth,
+    required this.strokeColor,
     required this.minX,
     required this.maxX,
     required this.interval,
@@ -49,6 +51,7 @@ class ChartSetting {
       unit: 's',
       type: ChartType.time,
       strokeWidth: 2,
+      strokeColor: 0xFF3498DB,
       minX: 0,
       maxX: 0.03,
       interval: .01,
@@ -63,6 +66,7 @@ class ChartSetting {
     unit: 'Hz',
     type: ChartType.frequency,
     strokeWidth: 2,
+    strokeColor: 0xFF27AE60,
     minX: Config.chartMinFreq,
     maxX: Config.chartMaxFreq,
     interval: 250,

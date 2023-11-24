@@ -107,4 +107,12 @@ abstract class AppColor {
   static const Color primaryDark = Colors.deepPurple;
   static const Color primary = Colors.deepPurple;
 
+  static const List<Color> palette = [
+    primary,
+    Color(0xFF3498DB),
+    Color(0xFF27AE60),
+    Color(0xFFE74C3C),
+    Color(0xFFF39C12),
+  ];
+
 }

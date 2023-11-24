@@ -85,7 +85,7 @@ class AppChart extends StatelessWidget {
                     sideTitles: SideTitles(showTitles: false)
                 ),
                 bottomTitles: AxisTitles(
-                  axisNameWidget: Text('${setting.name} [${setting.unit}]', style: const TextStyle(color: Colors.blueAccent)),
+                  axisNameWidget: Text('${setting.name} [${setting.unit}]', style: const TextStyle(color: Colors.black87)),
                   sideTitles: SideTitles(
                     interval: setting.interval,
                     getTitlesWidget: xAxisLabel,
@@ -103,6 +103,7 @@ class AppChart extends StatelessWidget {
                   isStrokeJoinRound: false,
                   preventCurveOvershootingThreshold: 0,
                   curveSmoothness: 5,
+                  color: Color(setting.strokeColor)
                 )
               ],
             ),

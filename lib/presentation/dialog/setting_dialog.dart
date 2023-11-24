@@ -74,6 +74,11 @@ class SettingsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if (SettingColorTile.title == title) {
+      return SettingColorTile(currentValue, valueSetter: valueSetter);
+    }
+
     return ListTile(
       title: Text(title, style: AppStyle.mediumDark,),
       trailing: Text(Util.valueDisplay(currentValue),
@@ -101,14 +106,12 @@ class SettingsTile extends StatelessWidget {
     final controller = TextEditingController(
         text: value.toString().cutDotZero
     );
-    print(value);
     return showDialog(context: context, builder: (ctx) {
       return AlertDialog(
         title: Text(title),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-
             TextField(
               controller: controller,
               autofocus: true,
@@ -131,3 +134,44 @@ class SettingsTile extends StatelessWidget {
     });
   }
 }
+
+class SettingColorTile extends StatelessWidget {
+
+  static const String title = 'strokeColor';
+
+  final num value;
+  final Function(num) valueSetter;
+
+  const SettingColorTile(this.value, {
+    required this.valueSetter,
+    Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    final int colorInt = value as int;
+
+    return ListTile(
+      title: const Text(title, style: AppStyle.mediumDark,),
+      trailing: Icon(Icons.color_lens, color: Color(colorInt)),
+      onTap: () {
+        Navigator.pop(context);
+        showDialog(context: context, builder: (ctx) => AlertDialog(
+            title: const Text('Select color'),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: AppColor.palette.map((color) => IconButton(
+                icon: Icon(Icons.color_lens, color: color, size: 30,),
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  valueSetter(color.value);
+                },
+            )).toList(),
+            ),
+        ));
+      },
+    );   // },
+
+  }
+}
+
