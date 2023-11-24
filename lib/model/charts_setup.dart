@@ -47,7 +47,7 @@ class ChartsSetup extends HiveObject {
     );
   }
 
-  static const String hiveKey = 'chart_setups_3';
+  static const String hiveKey = 'chart_setups_4';
   static Box<ChartsSetup> get hiveBox => Hive.box<ChartsSetup>(hiveKey);
 
   static openBox() {

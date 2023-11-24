@@ -20,6 +20,7 @@ class ChartSetting {
 
   double strokeWidth;
   int strokeColor;
+  double strokeSmoothness;
 
   double minX;
   double maxX;
@@ -37,6 +38,7 @@ class ChartSetting {
     required this.type,
     required this.strokeWidth,
     required this.strokeColor,
+    required this.strokeSmoothness,
     required this.minX,
     required this.maxX,
     required this.interval,
@@ -47,18 +49,19 @@ class ChartSetting {
   });
 
   static ChartSetting get defaultTime => ChartSetting(
-      name: 'Time',
-      unit: 's',
-      type: ChartType.time,
-      strokeWidth: 2,
-      strokeColor: 0xFF3498DB,
-      minX: 0,
-      maxX: 0.03,
-      interval: .01,
-      minY: 0,
-      maxY: 255,
-      baseY: 127,
-      samplesToSmooth: Config.samplesToSmoothTimeChart,
+    name: 'Time',
+    unit: 's',
+    type: ChartType.time,
+    strokeWidth: 1,
+    strokeColor: 0xFF27AE60,
+    strokeSmoothness: .5,
+    minX: 0,
+    maxX: 0.03,
+    interval: .01,
+    minY: 0,
+    maxY: 255,
+    baseY: 127,
+    samplesToSmooth: Config.samplesToSmoothTimeChart,
   );
 
   static ChartSetting get defaultFreq => ChartSetting(
@@ -66,7 +69,8 @@ class ChartSetting {
     unit: 'Hz',
     type: ChartType.frequency,
     strokeWidth: 2,
-    strokeColor: 0xFF27AE60,
+    strokeColor: 0xFF3498DB,
+    strokeSmoothness: 0,
     minX: Config.chartMinFreq,
     maxX: Config.chartMaxFreq,
     interval: 250,

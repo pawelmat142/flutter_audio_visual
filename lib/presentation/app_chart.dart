@@ -102,7 +102,8 @@ class AppChart extends StatelessWidget {
                   isStepLineChart: false,
                   isStrokeJoinRound: false,
                   preventCurveOvershootingThreshold: 0,
-                  curveSmoothness: 5,
+                  curveSmoothness: setting.strokeSmoothness,
+                  isCurved: setting.strokeSmoothness != 0,
                   color: Color(setting.strokeColor)
                 )
               ],
