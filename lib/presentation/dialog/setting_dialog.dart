@@ -7,11 +7,11 @@ import 'package:flutter_audio_visual/presentation/dialog/sure_dialog.dart';
 import 'package:flutter_audio_visual/services/util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SettingPopup extends StatelessWidget {
+class SettingDialog extends StatelessWidget {
 
   final ChartSetting setting;
 
-  const SettingPopup(this.setting, {
+  const SettingDialog(this.setting, {
     Key? key}) : super(key: key);
 
   @override
@@ -100,15 +100,21 @@ class SettingsTile extends StatelessWidget {
     final controller = TextEditingController(
         text: value.toString()
     );
+    print(value);
     return showDialog(context: context, builder: (ctx) {
       return AlertDialog(
         title: Text(title),
-        content: TextField(
-          keyboardType: TextInputType.number,
-          controller: controller,
-          autofocus: true,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+
+            TextField(
+              controller: controller,
+              autofocus: true,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              //allows only digits and one dot
+              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+(\.\d+)?\.?$'))],
+            ),
           ],
         ),
         actions: [

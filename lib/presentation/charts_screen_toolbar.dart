@@ -30,11 +30,6 @@ class ChartsScreenToolbar extends StatelessWidget {
                 onTap: () => selectTypeDialog(context, cubit)
             ),
             ToolBarItem(
-                label: 'full',
-                icon: Icons.fullscreen,
-                onTap: () => print('full screen!')
-            ),
-            ToolBarItem(
                 label: state.running ? 'stop' : 'start',
                 icon: state.running ? Icons.stop_circle : Icons.play_circle,
                 color: state.running ? Colors.redAccent : Colors.blueAccent,

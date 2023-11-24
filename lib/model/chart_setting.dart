@@ -9,6 +9,7 @@ enum ChartType {
 }
 // flutter packages pub run build_runner build --delete-conflicting-outputs
 
+//TODO full screen mode
 
 @JsonSerializable()
 class ChartSetting {
@@ -42,11 +43,11 @@ class ChartSetting {
 
   static ChartSetting get defaultTime => ChartSetting(
       name: 'Time',
-      unit: '[µs]',
+      unit: 's',
       type: ChartType.time,
       minX: 0,
       maxX: 0.03,
-      interval: .3,
+      interval: .01,
       minY: 0,
       maxY: 255,
       baseY: 127,
@@ -55,11 +56,11 @@ class ChartSetting {
 
   static ChartSetting get defaultFreq => ChartSetting(
     name: 'Frequency',
-    unit: '[Hz]',
+    unit: 'Hz',
     type: ChartType.frequency,
     minX: Config.chartMinFreq,
     maxX: Config.chartMaxFreq,
-    interval: 200,
+    interval: 250,
     minY: 0,
     maxY: 2000,
     baseY: 0,

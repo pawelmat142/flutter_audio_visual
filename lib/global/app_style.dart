@@ -72,10 +72,14 @@ abstract class AppStyle {
       color: AppColor.primary,
       letterSpacing: 1
   );
+
+  static const xSmallPrimary = TextStyle(
+      fontSize: AppFontSize.xSmall,
+      fontWeight: FontWeight.w400,
+      color: AppColor.primary,
+      letterSpacing: 1
+  );
 }
-
-
-
 
 
 abstract class AppFont {
@@ -84,12 +88,12 @@ abstract class AppFont {
 }
 
 abstract class AppFontSize {
+  static const double xSmall = 10;
   static const double small = 12;
   static const double medium = 16;
   static const double big = 24;
   static const double huge = 32;
 }
-
 
 
 abstract class AppColor {

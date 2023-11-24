@@ -33,4 +33,35 @@ extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
+
+  String get cutDotZero {
+    if (length > 2) {
+      final lastTwoLetters = substring(length-2);
+      if (lastTwoLetters == '.0') {
+        return substring(0, length-2);
+      }
+    }
+    return this;
+  }
+
+  String get cutZeroDot {
+    if (length > 2) {
+      final firstTwoLetters = substring(0, 2);
+      if (firstTwoLetters == '0.') {
+        return substring(1, length);
+      }
+    }
+    return this;
+  }
+
+  String get cutAfterDot {
+    if (contains('.')) {
+      final split = this.split('.');
+      final decimalPart = split[1];
+      if (decimalPart.length > 1) {
+        return '${split[0]}.${decimalPart.substring(0,1)}';
+      }
+    }
+    return this;
+  }
 }

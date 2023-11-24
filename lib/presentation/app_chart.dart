@@ -1,9 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_visual/global/app_style.dart';
 import 'package:flutter_audio_visual/model/chart_setting.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
-import 'package:flutter_audio_visual/presentation/dialog/setting_popup.dart';
+import 'package:flutter_audio_visual/presentation/dialog/setting_dialog.dart';
 import 'package:flutter_audio_visual/services/chart_service.dart';
+import 'package:flutter_audio_visual/services/extension.dart';
 import 'package:flutter_audio_visual/services/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,7 +56,7 @@ class AppChart extends StatelessWidget {
                   if (index == -1) throw 'index = -1!';
 
                   showDialog(context: context, builder: (ctx) {
-                    return SettingPopup(setting);
+                    return SettingDialog(setting);
                   });
                 }
               ),
@@ -83,10 +85,10 @@ class AppChart extends StatelessWidget {
                     sideTitles: SideTitles(showTitles: false)
                 ),
                 bottomTitles: AxisTitles(
-                  axisNameWidget: Text('${setting.name} ${setting.unit}', style: const TextStyle(color: Colors.blueAccent)),
+                  axisNameWidget: Text('${setting.name} [${setting.unit}]', style: const TextStyle(color: Colors.blueAccent)),
                   sideTitles: SideTitles(
                     interval: setting.interval,
-                    getTitlesWidget: getMyTitle,
+                    getTitlesWidget: xAxisLabel,
                     showTitles: true,
                   ),
                 ),
@@ -111,10 +113,32 @@ class AppChart extends StatelessWidget {
   }
 
 
-  Widget getMyTitle(double value, TitleMeta meta) {
+  Widget xAxisLabel(double value, TitleMeta meta) {
+    String suffix = '';
+
+
+    if (value != 0) {
+      if (value >= 100) {
+        value /= 1000;
+        suffix = 'k';
+      } else if (value >= 100000) {
+        value /= 1000000;
+        suffix = 'M';
+      } else if (value <= 0.1) {
+        value *= 1000;
+        suffix = 'm';
+      } else if (value <= 0.0001) {
+        value *= 1000000;
+      }
+    }
+
+
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: Text((value*1000).toInt().toString())
+      child: Text(
+        '${value.toString().cutAfterDot.cutDotZero.cutZeroDot}$suffix',
+        style: AppStyle.xSmallPrimary
+      )
     );
   }
 }
