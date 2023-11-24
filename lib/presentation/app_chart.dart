@@ -96,7 +96,7 @@ class AppChart extends StatelessWidget {
               lineBarsData: [
                 LineChartBarData(
                   spots: spots,
-                  barWidth: 2,
+                  barWidth: setting.strokeWidth,
                   dotData: const FlDotData(show: false),
                   isStrokeCapRound: false,
                   isStepLineChart: false,

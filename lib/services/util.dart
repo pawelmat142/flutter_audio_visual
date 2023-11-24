@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_audio_visual/model/signal.dart';
+import 'package:flutter_audio_visual/services/extension.dart';
 
 abstract class Util {
 
@@ -35,7 +36,7 @@ abstract class Util {
     } else if (value <= 0.1) {
       return '${(value*1000).toStringAsFixed(2)} m';
     } else {
-      return value.toString();
+      return value.toString().cutDotZero.cutAfterDot;
     }
   }
 

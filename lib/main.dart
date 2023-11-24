@@ -24,7 +24,8 @@ void main() async {
     child: const MyApp()));
 }
 
-//TODO stroke width by settings
+//TODO prepare one global number display pattern
+//TODO stroke color in settings
 //TODO chart label title color
 
 class MyApp extends StatelessWidget {

@@ -18,6 +18,8 @@ class ChartSetting {
   final String unit;
   final ChartType type;
 
+  double strokeWidth;
+
   double minX;
   double maxX;
   double interval;
@@ -32,6 +34,7 @@ class ChartSetting {
     required this.name,
     required this.unit,
     required this.type,
+    required this.strokeWidth,
     required this.minX,
     required this.maxX,
     required this.interval,
@@ -45,6 +48,7 @@ class ChartSetting {
       name: 'Time',
       unit: 's',
       type: ChartType.time,
+      strokeWidth: 2,
       minX: 0,
       maxX: 0.03,
       interval: .01,
@@ -58,6 +62,7 @@ class ChartSetting {
     name: 'Frequency',
     unit: 'Hz',
     type: ChartType.frequency,
+    strokeWidth: 2,
     minX: Config.chartMinFreq,
     maxX: Config.chartMaxFreq,
     interval: 250,

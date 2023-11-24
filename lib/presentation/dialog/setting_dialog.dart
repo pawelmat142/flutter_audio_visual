@@ -4,6 +4,7 @@ import 'package:flutter_audio_visual/global/app_style.dart';
 import 'package:flutter_audio_visual/model/chart_setting.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/dialog/sure_dialog.dart';
+import 'package:flutter_audio_visual/services/extension.dart';
 import 'package:flutter_audio_visual/services/util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -98,7 +99,7 @@ class SettingsTile extends StatelessWidget {
     required num value,
   }) {
     final controller = TextEditingController(
-        text: value.toString()
+        text: value.toString().cutDotZero
     );
     print(value);
     return showDialog(context: context, builder: (ctx) {
