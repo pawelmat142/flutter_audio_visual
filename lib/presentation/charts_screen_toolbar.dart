@@ -4,9 +4,7 @@ import 'package:flutter_audio_visual/model/chart_setting.dart';
 import 'package:flutter_audio_visual/model/charts_state.dart';
 import 'package:flutter_audio_visual/presentation/dialog/app_snackbar.dart';
 import 'package:flutter_audio_visual/presentation/dialog/toolbar.dart';
-import 'package:flutter_audio_visual/presentation/home.dart';
 import 'package:flutter_audio_visual/presentation/setups_screen.dart';
-import 'package:flutter_audio_visual/services/extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChartsScreenToolbar extends StatelessWidget {
@@ -41,16 +39,13 @@ class ChartsScreenToolbar extends StatelessWidget {
             ToolBarItem(
                 icon: Icons.list,
                 label: 'Setups list',
-                onTap: () => Navi.inStack(SetupsScreen.id)
-                  ? Navi.popUntilNamed(context, SetupsScreen.id)
-                  : Navigator.pushNamed(context, SetupsScreen.id)
+                onTap: () => Navigator.pushNamed(context, SetupsScreen.id)
             ),
             ToolBarItem(
                 label: 'save',
                 icon: Icons.save,
                 onTap: () => cubit.saveSetup().then((_) {
                   AppSnackBar.show(context: context, text: 'saved!');
-                  Navi.popUntilNamed(context, HomeScreen.id);
                   Navigator.pushNamed(context, SetupsScreen.id);
                 })
             ),

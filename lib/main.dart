@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: Navi.navigatorKey,
       navigatorObservers: [NavigationHistoryObserver()],
 
-      initialRoute: HomeScreen.id,
+      initialRoute: ChartsScreen.id,
       routes: {
         HomeScreen.id: (context) => const HomeScreen(),
         ChartsScreen.id: (context) => const ChartsScreen(),

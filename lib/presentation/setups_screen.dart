@@ -44,9 +44,8 @@ class SetupsScreen extends StatelessWidget {
   loadSetup(BuildContext context, ChartsSetup setup) {
     final cubit = BlocProvider.of<ChartsCubit>(context);
     cubit.loadSetup(setup);
-    Navi.popUntilNamed(context, SetupsScreen.id);
     Future.delayed(const Duration(milliseconds: 100), () {
-      Navigator.pushNamed(context, ChartsScreen.id);
+      Navi.popUntilNamed(context, ChartsScreen.id);
     });
   }
 
