@@ -29,11 +29,11 @@ class SetupsScreen extends StatelessWidget {
 
           return ListView(
             children: setups.map((setup) => ListTile(
-              title: Text(setup.name!,),
+              title: Text(setup.name ?? 'Long press to add name...',),
               subtitle: Text(setup.modified.format, style: AppStyle.smallPrimary),
               trailing: DeleteSetupButton(setup),
               onTap: () => loadSetup(context, setup),
-              onLongPress: () => setName(context, setup),
+              onLongPress: () => onSetupLongPress(context, setup),
             )).toList(),
           );
         },
@@ -47,6 +47,35 @@ class SetupsScreen extends StatelessWidget {
     Future.delayed(const Duration(milliseconds: 100), () {
       Navi.popUntilNamed(context, ChartsScreen.id);
     });
+  }
+
+  onSetupLongPress(BuildContext context, ChartsSetup setup) {
+    showDialog(context: context, builder: (ctx) => AlertDialog(
+      title: setup.name is String ? Text(setup.name!) : null,
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20,),
+
+            TextButton(onPressed: () {
+              Navigator.pop(context);
+              setup.copy().then((_) => AppSnackBar.show(context: context, text: 'Copied!'));
+            }, child: const Text('Copy setup')),
+
+            TextButton(onPressed: () {
+              Navigator.pop(context);
+              setName(context, setup);
+            }, child: const Text('Edit name')),
+
+            TextButton(onPressed: () {
+              Navigator.pop(context);
+            }, child: const Text('Cancel')),
+          ],
+        )
+      ],
+    ));
   }
 
   setName(BuildContext context, ChartsSetup setup) {

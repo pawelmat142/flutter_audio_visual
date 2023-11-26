@@ -68,8 +68,6 @@ class Toolbar extends StatelessWidget {
       elevation: 10,
       selectedItemColor: defaultLabelColor,
       unselectedItemColor: defaultLabelColor,
-      // selectedLabelStyle: AppStyle.listTileSubtitle,
-      // unselectedLabelStyle: AppStyle.listTileSubtitle,
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
       onTap: (i) => _onItemTap(i, context),
@@ -96,7 +94,9 @@ class Toolbar extends StatelessWidget {
   _onToolbarMenu(BuildContext context) {
     showDialog(context: context, builder: (ctx) => AlertDialog(
         title: const Text('Menu'),
-        content: Column(children: _menuItems.map((menuItem) => ListTile(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+            children: _menuItems.map((menuItem) => ListTile(
           title: Text(
             (menuItem.menuLabel ?? menuItem.label).capitalize(),
             style: TextStyle(color: menuItem.color ?? defaultMenuLabelColor,)

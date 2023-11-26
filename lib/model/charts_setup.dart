@@ -33,7 +33,7 @@ class ChartsSetup extends HiveObject {
         const Uuid().v1(),
         settings.map((setting) => setting.toJson).toList(),
         DateTime.now(),
-        name ?? 'Long press to add name...'
+        name
     );
   }
 
@@ -45,6 +45,17 @@ class ChartsSetup extends HiveObject {
         DateTime.now(),
         setup.name,
     );
+  }
+
+  Future<ChartsSetup> copy() async {
+    final result = ChartsSetup(
+        const Uuid().v1(),
+        chartSettings,
+        DateTime.now(),
+        name == null ? null : '$name - copy'
+    );
+    await result.save();
+    return result;
   }
 
   static const String hiveKey = 'chart_setups_4';

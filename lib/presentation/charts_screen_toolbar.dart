@@ -24,7 +24,7 @@ class ChartsScreenToolbar extends StatelessWidget {
             ToolBarItem(
                 label: 'add',
                 menuLabel: 'add chart',
-                icon: Icons.add,
+                icon: Icons.add_chart,
                 onTap: () => selectTypeDialog(context, cubit)
             ),
             ToolBarItem(
