@@ -47,15 +47,11 @@ class ChartService {
 
   List<FlSpot> freqSpots(Signal signal) {
     final deltaFrequency = Config.sampleRate / signal.length;
-    const endOffset = 500;
-    const startOffset = 3;
-    if (signal.length < endOffset) {
-      return [];
-    }
     return List<FlSpot>.generate(signal.length ~/2, (f) {
       final int y = signal[f].abs();
       return FlSpot(f * deltaFrequency, y.toDouble());
-    }).getRange(startOffset, endOffset).toList();
+    })
+        .getRange(1, signal.length)
+        .toList();
   }
-
 }

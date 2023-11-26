@@ -1,3 +1,4 @@
+import 'package:flutter_audio_visual/global/app_style.dart';
 import 'package:flutter_audio_visual/global/config.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -24,11 +25,11 @@ class ChartSetting {
 
   double minX;
   double maxX;
-  double interval;
+  double? interval;
 
-  double minY;
-  double maxY;
-  double baseY;
+  double? minY;
+  double? maxY;
+  double? baseY;
 
   final int samplesToSmooth;
 
@@ -41,10 +42,10 @@ class ChartSetting {
     required this.strokeSmoothness,
     required this.minX,
     required this.maxX,
-    required this.interval,
-    required this.minY,
-    required this.maxY,
-    required this.baseY,
+    this.interval,
+    this.minY,
+    this.maxY,
+    this.baseY,
     required this.samplesToSmooth,
   });
 
@@ -53,11 +54,10 @@ class ChartSetting {
     unit: 's',
     type: ChartType.time,
     strokeWidth: 1,
-    strokeColor: 0xFF27AE60,
+    strokeColor: AppColor.palette[1].value,
     strokeSmoothness: .5,
     minX: 0,
     maxX: 0.03,
-    interval: .01,
     minY: 0,
     maxY: 255,
     baseY: 127,
@@ -69,14 +69,10 @@ class ChartSetting {
     unit: 'Hz',
     type: ChartType.frequency,
     strokeWidth: 2,
-    strokeColor: 0xFF3498DB,
+    strokeColor: AppColor.palette[2].value,
     strokeSmoothness: 0,
-    minX: Config.chartMinFreq,
-    maxX: Config.chartMaxFreq,
-    interval: 250,
-    minY: 0,
-    maxY: 2000,
-    baseY: 0,
+    minX: 1,
+    maxX: 2000,
     samplesToSmooth: Config.samplesToSmoothFreqChart,
   );
 

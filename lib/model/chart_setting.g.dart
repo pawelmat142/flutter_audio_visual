@@ -15,10 +15,10 @@ ChartSetting _$ChartSettingFromJson(Map<String, dynamic> json) => ChartSetting(
       strokeSmoothness: (json['strokeSmoothness'] as num).toDouble(),
       minX: (json['minX'] as num).toDouble(),
       maxX: (json['maxX'] as num).toDouble(),
-      interval: (json['interval'] as num).toDouble(),
-      minY: (json['minY'] as num).toDouble(),
-      maxY: (json['maxY'] as num).toDouble(),
-      baseY: (json['baseY'] as num).toDouble(),
+      interval: (json['interval'] as num?)?.toDouble(),
+      minY: (json['minY'] as num?)?.toDouble(),
+      maxY: (json['maxY'] as num?)?.toDouble(),
+      baseY: (json['baseY'] as num?)?.toDouble(),
       samplesToSmooth: json['samplesToSmooth'] as int,
     );
 

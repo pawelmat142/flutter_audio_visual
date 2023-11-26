@@ -10,6 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingDialog extends StatelessWidget {
 
+  static const List<String> settingsExcludedFromPopup = [
+    'interval'
+  ];
+
   final ChartSetting setting;
 
   const SettingDialog(this.setting, {
@@ -44,6 +48,7 @@ class SettingDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: settingJson.keys
           .where((field) => settingJson[field] is num)
+          .where((field) => !settingsExcludedFromPopup.contains(field))
           .map((field) => SettingsTile(
             title: field,
             currentValue: settingJson[field],

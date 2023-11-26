@@ -66,9 +66,7 @@ class ChartsCubit extends Cubit<ChartsState> {
     final chart = state.charts[index];
     final newChart = chart.set(field: field, value: value);
     state.charts[index] = newChart;
-    emit(state.copyWith(
-        charts: state.charts
-    ));
+    emit(state.copyWith( charts: state.charts ));
   }
 
   removeChart(ChartSetting setting) {

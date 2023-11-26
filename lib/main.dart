@@ -25,6 +25,7 @@ void main() async {
 }
 
 //TODO prepare one global number display pattern
+//TODO copy setup feature
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

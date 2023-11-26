@@ -26,6 +26,8 @@ class AppChart extends StatelessWidget {
     final chartService = getIt.get<ChartService>();
     final cubit = BlocProvider.of<ChartsCubit>(context);
 
+    final interval = (setting.maxX - setting.minX) / 7;
+
     return SizedBox(
       height: height,
       child: StreamBuilder(
@@ -37,11 +39,12 @@ class AppChart extends StatelessWidget {
           final spots = snapshot.data ?? [];
           return LineChart(
             LineChartData(
-              baselineY: setting.baseY.toDouble(),
-              minY: setting.minY.toDouble(),
-              maxY: setting.maxY.toDouble(),
+              baselineY: setting.baseY?.toDouble(),
+              minY: setting.minY?.toDouble(),
+              maxY: setting.maxY?.toDouble(),
               minX: setting.minX.toDouble(),
               maxX: setting.maxX.toDouble(),
+
 
               gridData: const FlGridData(
                 show: true,
@@ -63,7 +66,7 @@ class AppChart extends StatelessWidget {
 
               extraLinesData: ExtraLinesData(
                 horizontalLines: [
-                  HorizontalLine(y: setting.baseY.toDouble(),
+                  if (setting.baseY is num) HorizontalLine(y: setting.baseY!.toDouble(),
                     color: Colors.blueGrey.shade500,
                     strokeWidth: .3
                   )
@@ -87,7 +90,7 @@ class AppChart extends StatelessWidget {
                 bottomTitles: AxisTitles(
                   axisNameWidget: Text('${setting.name} [${setting.unit}]', style: const TextStyle(color: Colors.black87)),
                   sideTitles: SideTitles(
-                    interval: setting.interval,
+                    interval: interval == 0 ? null : interval,
                     getTitlesWidget: xAxisLabel,
                     showTitles: true,
                   ),
@@ -118,12 +121,11 @@ class AppChart extends StatelessWidget {
   Widget xAxisLabel(double value, TitleMeta meta) {
     String suffix = '';
 
-
     if (value != 0) {
-      if (value >= 100) {
+      if (value >= 1000) {
         value /= 1000;
         suffix = 'k';
-      } else if (value >= 100000) {
+      } else if (value >= 1000000) {
         value /= 1000000;
         suffix = 'M';
       } else if (value <= 0.1) {
@@ -134,13 +136,13 @@ class AppChart extends StatelessWidget {
       }
     }
 
-
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text(
-        '${value.toString().cutAfterDot.cutDotZero.cutZeroDot}$suffix',
+        '${value.precision(2)}$suffix',
         style: AppStyle.xSmallPrimary
       )
     );
   }
+
 }

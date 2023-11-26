@@ -64,4 +64,14 @@ extension StringExtension on String {
     }
     return this;
   }
+  
 }
+
+extension NmExtension on num {
+
+  String precision(int precision) {
+    return num.parse(toStringAsPrecision(precision)).toString().cutDotZero;
+  }
+
+}
+
