@@ -47,11 +47,12 @@ class ChartService {
 
   List<FlSpot> freqSpots(Signal signal) {
     final deltaFrequency = Config.sampleRate / signal.length;
+    final length = signal.length ~/2;
     return List<FlSpot>.generate(signal.length ~/2, (f) {
       final int y = signal[f].abs();
       return FlSpot(f * deltaFrequency, y.toDouble());
     })
-        .getRange(1, signal.length)
+        .getRange(1, length)
         .toList();
   }
 }

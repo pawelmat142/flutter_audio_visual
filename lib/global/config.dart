@@ -19,7 +19,7 @@ abstract class Config {
   /// Those are used only for charts rendering
   ///
   static const int samplesToSmoothTimeChart = 1;
-  static const int samplesToSmoothFreqChart = 5;
+  static const int samplesToSmoothFreqChart = 1;
 
   ///
   /// this parameter destiny is to decrease charts rendering frequency
